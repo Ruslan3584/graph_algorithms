@@ -1,7 +1,6 @@
 #include "maxflow.h"
 #include <bits/stdc++.h>
 using namespace std;
-
 Edge::Edge()
     {
         Edge(0, 0, 0, 0);
@@ -20,7 +19,6 @@ int Edge::get_dest()
     	return dest;
     }
 
-
 int Edge::get_source()
     {
     	return source;
@@ -37,21 +35,16 @@ int Edge::get_capacity()
     	return capacity;
     }
 
-
-
 void Edge::set_flow(int f)
     {
     	this->flow = f;
     }
-    
-    
     
 Residual_Edge::Residual_Edge() : Edge()
     {
         is_forward = false;
         counterpart = NULL;
     }
-
 
 Residual_Edge::Residual_Edge(int src, int des, int fl, int cap, bool fwd) 
    : Edge(src, des, fl, cap)
@@ -60,21 +53,17 @@ Residual_Edge::Residual_Edge(int src, int des, int fl, int cap, bool fwd)
         counterpart = NULL;
     }
 
-
-
 void Residual_Edge::set_couterpart(Residual_Edge *n)
     {
         counterpart = n;
     }
-
-
 
 Residual_Edge* Residual_Edge::get_counterpart()
     {
     	return counterpart;
     }
     
-  Graph::Graph(int vertices)
+Graph::Graph(int vertices)
     {
         numberOfNodes = vertices;
         adjacency_list = new vector<Edge *>[numberOfNodes];
@@ -84,7 +73,6 @@ int Graph::get_number_nodes()
     {
     	return numberOfNodes;
     }
-
 
 Graph::~Graph()
     {
@@ -98,19 +86,16 @@ Graph::~Graph()
         delete[] adjacency_list;
     }
 
-
 void Graph::addEdge(int v1, int v2, int flow, int capacity)
     {
         Edge *temp = new Edge(v1, v2, flow, capacity);
         adjacency_list[v1].push_back(temp);
     }
 
-
 vector<Edge *> Graph::getNeighbours(int v)
     {
         return adjacency_list[v];
     }    
-    
     
 Residual_Graph::Residual_Graph(Graph &g)
     {
@@ -130,19 +115,15 @@ Residual_Graph::Residual_Graph(Graph &g)
         }
     }
 
-
 int Residual_Graph::get_number_nodes()
     {
     	return n;
     }
 
-
 vector<Residual_Edge *> Residual_Graph::getNeighbours(int v)
     {
         return adjacency_list[v];
     }
-
-
 
 Residual_Graph::~Residual_Graph()
     {
@@ -155,4 +136,3 @@ Residual_Graph::~Residual_Graph()
         }
         delete[] adjacency_list;
     }
-    
