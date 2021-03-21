@@ -17,7 +17,7 @@ run:
 ```bash
 ./maxflow ../test_images/input.png 50 ../test_images/result.png
 ```
-## Lab 1 - alpha-Expansion implementation
+## Lab 2 - alpha-Expansion implementation
 ### Image Segmentation
 #### Examples
 ```bash
@@ -31,5 +31,5 @@ path_to_input_image epsilon n_iter output_image
 
 run: 
 ```bash
-./alpha_expansion ../input.png 15 3 out.png
+./alpha_expansion ../input.png 15 3 ../out.png
 ```
