@@ -17,3 +17,19 @@ run:
 ```bash
 ./maxflow ../test_images/input.png 50 ../test_images/result.png
 ```
+## Lab 1 - alpha-Expansion implementation
+### Image Segmentation
+#### Examples
+```bash
+cd lab2/
+mkdir build/
+cd build/
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-march=native -mtune=native" .. && cmake --build .
+```
+pass parameters:
+path_to_input_image epsilon n_iter output_image
+
+run: 
+```bash
+./alpha_expansion ../input.png 15 3 out.png
+```
