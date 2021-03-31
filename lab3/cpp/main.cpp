@@ -137,7 +137,7 @@ vector<Residual_Edge *> find_path(Residual_Graph &g, int source, int sink)
     if (!visited[sink])
         return path;
     int current = sink;
-    while (!current == source)
+    while (current != source)
     {
         path.push_back(parent[current]);
         current = parent[current]->get_source();
