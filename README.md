@@ -58,3 +58,14 @@ run:
 ```bash
 python3 py/ishikawa_maxflow.py ../test_images/input.png 15 5 out.png
 ```
+
+## Lab 4 - d-shortest paths
+### Image (string) Recognition
+#### Examples 
+```bash
+python3 lab4/d_shortest_paths.py input_string noise_level number_of_best_paths
+
+python3 d_shortest_paths.py "row" 0.1 3
+python3 d_shortest_paths.py "all" 0.2 3
+```
+
