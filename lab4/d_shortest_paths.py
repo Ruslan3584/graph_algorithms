@@ -90,7 +90,7 @@ def restore(pointers, alphabet_arr):
 def get_d_shortest(d, letters_probab, alphabet_arr, p_k):
     number_of_letters = letters_probab.shape[0]
     f = np.zeros((number_of_letters,len(alphabet_arr),d ))
-    f[0,:,0] = letters_probab[0,:]
+    f[0,:,0] = letters_probab[0,:]+ p_k[-1,:]
     f[0,:,1:] = np.inf
 
 
@@ -139,10 +139,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
     
-
-
-
-
-
