@@ -79,40 +79,46 @@ def get_unary_penalties(img_string, alphabet_list, reference_images, p):
     return letters_probab
 
 
-def restore(pointers, alphabet_arr):
-    result = np.empty(pointers.shape[0], dtype=int)
-    result[-1] = pointers[-1,0]
-    for j in range(pointers.shape[0]-2, -1, -1):
-        result[j] = pointers[j,result[j+1]]
-    return ''.join(alphabet_arr[result])
-
+def get_best_d_paths(pointers_d, alphabet_arr):
+    best = []
+    d = pointers_d.shape[2]
+    for path in range(0,d):
+        best_last = pointers_d[-1,0,path]
+        result = np.empty(pointers_d.shape[0], dtype=int)
+        result[-1] = best_last
+        for j in range(pointers_d.shape[0]-2, -1, -1):
+            if j == 0:
+                for best_last in range(d):
+                    result[j] = pointers_d[j,result[j+1]][best_last]
+                    if list(result) not in best:
+                        best.append(list(result))
+                        break
+            result[j] = pointers_d[j,result[j+1]][0]
+    
+    out_strings = [''.join(alphabet_arr[x]) for x in best]
+    return out_strings
 
 def get_d_shortest(d, letters_probab, alphabet_arr, p_k):
     number_of_letters = letters_probab.shape[0]
     f = np.zeros((number_of_letters,len(alphabet_arr),d ))
-    f[0,:,0] = letters_probab[0,:]+ p_k[-1,:]
+    f[0,:,0] = p_k[-1,:]+ letters_probab[0, :]
     f[0,:,1:] = np.inf
-
-
     pointers_d = np.full((number_of_letters, len(alphabet_arr), d), -1).astype(int)
-
     for letter in range(number_of_letters - 1):
+        temp = []
         for next_label in range(len(alphabet_arr)):
             all_paths = np.zeros((len(alphabet_arr),d))
             for prev_label in range(len(alphabet_arr)):
                 all_paths[prev_label,:] = f[letter,prev_label,:] + p_k[prev_label, next_label] + letters_probab[letter + 1, next_label]
-            ind = np.argsort(np.min(all_paths,axis=1))[:d]
-            pointers_d[letter,next_label,:] = ind
+            
+            temp.append(all_paths)
             f[letter + 1,next_label,:] = np.sort(all_paths.ravel())[:d]
+            pointers_d[letter,next_label,:] = np.argsort(np.min(all_paths,axis=1))[:d]
+    pointers_d[-1,:,:] = (np.argsort(f[-1,...].ravel())//d)[:d]
 
-    pointers_d[-1,:,:] = np.argmin(f[-1,:], axis=0)
-    d_shortest = [] 
-    for best_path in range(d):
-        d_shortest.append(restore(pointers_d[:,:,best_path], alphabet_arr ))
+    d_shortest = get_best_d_paths(pointers_d, alphabet_arr)
 
     return d_shortest
-
-
 
 
 def main():
@@ -139,4 +145,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
